@@ -92,6 +92,7 @@ class CategoricalEncoder(Encoder):
     self._bos_token = bos_token
     self._pad_token = pad_token
     self._max_seq_len = max_seq_len
+    self.basis = basis
 
   def encode(self, inputs: List[bases.Value]) -> List[int]:
     if self.enforce_bos and inputs[0] != self.bos_token:
