@@ -13,8 +13,10 @@
 # limitations under the License.
 # ==============================================================================
 """Combines all steps of compiling a RASP program."""
-
+from dataclasses import dataclass
 from typing import Set
+
+import networkx as nx
 
 from tracr.compiler import assemble
 from tracr.compiler import basis_inference
@@ -30,6 +32,12 @@ from tracr.rasp import rasp
 COMPILER_BOS = "compiler_bos"
 COMPILER_PAD = "compiler_pad"
 
+@dataclass
+class TracrOutput:
+  """The output of the tracr compiler."""
+  model: assemble.AssembledTransformerModel
+  graph: nx.DiGraph
+
 
 def compile_rasp_to_model(
     program: rasp.SOp,
@@ -39,7 +47,7 @@ def compile_rasp_to_model(
     compiler_bos: str = COMPILER_BOS,
     compiler_pad: str = COMPILER_PAD,
     mlp_exactness: int = 100,
-) -> assemble.AssembledTransformerModel:
+) -> TracrOutput:
   """Compile a RASP program to transformer weights.
 
   Note that currently not all RASP features are supported. Most unsupported
@@ -112,7 +120,7 @@ def compile_rasp_to_model(
 
   craft_model = craft_graph_to_model.craft_graph_to_model(graph, sources)
 
-  return craft_model_to_transformer.craft_model_to_transformer(
+  tracr_model = craft_model_to_transformer.craft_model_to_transformer(
       craft_model=craft_model,
       graph=graph,
       sink=sink,
@@ -120,4 +128,9 @@ def compile_rasp_to_model(
       causal=causal,
       compiler_bos=compiler_bos,
       compiler_pad=compiler_pad,
+  )
+
+  return TracrOutput(
+      model=tracr_model,
+      graph=graph,
   )
