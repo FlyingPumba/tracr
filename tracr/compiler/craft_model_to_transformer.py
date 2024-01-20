@@ -71,6 +71,6 @@ def craft_model_to_transformer(
         bos_token=None,
         pad_token=None)
   else:
-    assembled_model.output_encoder = encoder.NumericalEncoder()
+    assembled_model.output_encoder = encoder.NumericalEncoder(output_space.basis)
 
   return assembled_model

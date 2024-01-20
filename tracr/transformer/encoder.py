@@ -55,6 +55,9 @@ class Encoder(abc.ABC):
 class NumericalEncoder(Encoder):
   """Encodes numerical variables (simply using the identity mapping)."""
 
+  def __init__(self, basis: Sequence[bases.BasisDirection]):
+    self.basis = basis
+
   def encode(self, inputs: List[float]) -> List[float]:
     return inputs
 
