@@ -25,7 +25,7 @@ from tracr.compiler import craft_model_to_transformer
 from tracr.compiler import expr_to_craft_graph
 from tracr.compiler import rasp_to_graph
 from tracr.compiler import validating
-from tracr.craft import bases
+from tracr.craft import bases, transformers
 from tracr.rasp import rasp
 
 
@@ -37,6 +37,7 @@ class TracrOutput:
   """The output of the tracr compiler."""
   model: assemble.AssembledTransformerModel
   graph: nx.DiGraph
+  craft_model: transformers.SeriesWithResiduals
 
 
 def compile_rasp_to_model(
@@ -133,4 +134,5 @@ def compile_rasp_to_model(
   return TracrOutput(
       model=tracr_model,
       graph=graph,
+      craft_model=craft_model,
   )
