@@ -37,8 +37,7 @@ class TracrOutput:
   """The output of the tracr compiler."""
   model: assemble.AssembledTransformerModel
   graph: nx.DiGraph
-  basis = None
-  craft_model: transformers.SeriesWithResiduals = None
+  craft_model: transformers.SeriesWithResiduals
 
 
 def compile_rasp_to_model(
@@ -49,7 +48,6 @@ def compile_rasp_to_model(
     compiler_bos: str = COMPILER_BOS,
     compiler_pad: str = COMPILER_PAD,
     mlp_exactness: int = 100,
-    return_craft_model: bool = False,
 ) -> TracrOutput:
   """Compile a RASP program to transformer weights.
 
@@ -136,5 +134,5 @@ def compile_rasp_to_model(
   return TracrOutput(
       model=tracr_model,
       graph=graph,
-      craft_model=craft_model if return_craft_model else None,
+      craft_model=craft_model,
   )

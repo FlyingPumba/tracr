@@ -26,6 +26,7 @@ class Encoder(abc.ABC):
   The abstract class does not make assumptions on the input and output types,
   and we have different encoders for different input types.
   """
+  basis: Sequence[bases.BasisDirection]
 
   @abc.abstractmethod
   def encode(self, inputs: List[Any]) -> List[Any]:
